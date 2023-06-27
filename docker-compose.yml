@@ -10,6 +10,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        HTTP_PROXY: http://172.17.0.1:10809
+        HTTPS_PROXY: http://172.17.0.1:10809
     volumes:
       - ./:/chroma
       - index_data:/index_data
