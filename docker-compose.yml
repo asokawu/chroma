@@ -3,6 +3,11 @@ version: '3.9'
 networks:
   net:
     driver: bridge
+    ipam:
+        driver: default
+        config:
+          - subnet: 172.21.0.0/24
+          - gateway: 172.21.0.1
 
 services:
   server:
@@ -26,7 +31,8 @@ services:
     depends_on:
       - clickhouse
     networks:
-      - net
+      net:
+        ipv4_address: 172.21.0.3
 
   clickhouse:
     image: clickhouse/clickhouse-server:22.9-alpine
@@ -44,7 +50,8 @@ services:
       - ./config/backup_disk.xml:/etc/clickhouse-server/config.d/backup_disk.xml
       - ./config/chroma_users.xml:/etc/clickhouse-server/users.d/chroma.xml
     networks:
-      - net
+      net:
+        ipv4_address: 172.21.0.2
 
 volumes:
   clickhouse_data:
